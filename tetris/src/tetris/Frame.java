@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,9 +11,14 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-public class Frame implements KeyListener {
+public class Frame implements MouseListener {
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
+	boolean[][] grid = new boolean[9][9];
+	int score = 0;
+	boolean[] rowClear = new boolean[9];
+	boolean[] colClear = new boolean[9];
+	
 	
 	public static void main(String[] args) {
 		
@@ -21,61 +27,55 @@ public class Frame implements KeyListener {
 		
 	}
 	
+	public void paint(Graphics g) {
+		
+		for (int i = 0; i < blocks.size(); i++) {
+			blocks.get(i).paint(g);
+		}
+	}
+	
 	public Frame() {
 		JFrame f = new JFrame();
-		f.setSize(400, 800);
+		f.setSize(450, 450);
 		f.setBackground(Color.GRAY);
-		f.addKeyListener(this);
-		f.setVisible(true);
+		f.setResizable(false);
+		f.addMouseListener(this);
+		
 		if (blocks.size()==0) {
-			int num = (int) (Math.random()*7);
-			if (num==0) {
-				blocks.add(new Square(360, 40, 80, 80));
-			}
-			else if (num==1) {
-				blocks.add(new RightL(360, 40, 80, 120));
-			}
-			else if (num==2 ) {
-				blocks.add(new LeftL(360, 40, 80, 120));
-			}
-			else if (num==3) {
-				blocks.add(new Line(360, 40, 40, 160));
-			}
-			else if (num==4) {
-				blocks.add(new T(360, 40, 120, 80));
-			}
-			else if (num==5) {
-				blocks.add(new LeftZ(360, 40, 120, 80));
-			}
-			else if (num==6) {
-				blocks.add(new RightZ(360, 40, 120, 80));
-			}
+			
 		}
 		
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		f.setVisible(true);
 	}
 	
-	public void paint(Graphics g) {
-		
-		
-		
-	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
