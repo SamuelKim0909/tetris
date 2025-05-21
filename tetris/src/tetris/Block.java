@@ -26,11 +26,12 @@ public class Block {
 		this.height = height;
 		box = new Rectangle(x, y, width, height);
 	}
-	
+
 	public void paint(Graphics g) {
-		//these are the 2 lines of code needed draw an image on the screen
-
-
+		// TODO Auto-generated method stub
+		
 	}
+	
+	
 	
 }

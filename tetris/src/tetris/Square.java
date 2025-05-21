@@ -17,7 +17,7 @@ public class Square extends Block{
 	
 	public Square(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		forward = getImage("/imgs/"+"");
+		forward = getImage("/imgs/"+"square.png");
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		init(x,y);
 		

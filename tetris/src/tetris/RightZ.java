@@ -17,7 +17,7 @@ public class RightZ extends Block{
 
 	public RightZ(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		forward = getImage("/imgs/"+"");
+		forward = getImage("/imgs/"+"rightZ.png");
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		init(x,y);
 		// TODO Auto-generated constructor stub

@@ -17,7 +17,7 @@ public class LeftZ extends Block{
 
 	public LeftZ(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		forward = getImage("/imgs/"+"");
+		forward = getImage("/imgs/"+"leftZ.png");
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		init(x,y);
 		// TODO Auto-generated constructor stub
