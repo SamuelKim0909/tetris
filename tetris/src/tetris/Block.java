@@ -14,8 +14,8 @@ public class Block {
 	int y;
 	int width;
 	int height;
-	double scaleWidth = 1;
-	double scaleHeight = 1;
+	double scaleWidth = 0.05;
+	double scaleHeight = 0.05;
 	Rectangle box;
 	
 	public Block(int x, int y, int width, int height) {

@@ -9,16 +9,17 @@ public class Runner {
 	public Runner() {
 		frame = new JFrame();
 		f = new Frame();
+		setup();
 	}
 	
 	void setup() {
 		frame.add(f);
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 	public static void main(String[] args) {
 		Runner game = new Runner();
-		game.setup();
+		 
 	}
 
 }

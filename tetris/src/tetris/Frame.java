@@ -1,18 +1,50 @@
 package tetris;
-
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.KeyListener; 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class Frame extends JPanel implements MouseListener {
+public class Frame extends JPanel implements ActionListener, MouseListener {
+	//ints to keep track of the state of the game
+	
+	//Timer related variables
+	int waveTimer = 5; //each wave of enemies is 20s
+	long ellapseTime = 0;
+	Font timeFont = new Font("Courier", Font.BOLD, 70);
+	
+	//font and music variables
+	Font myFont = new Font("Courier", Font.BOLD, 40);
+//	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
+//	SimpleAudioPlayer backgroundMusic2 = new SimpleAudioPlayer("sound2.wav", false);
+//	Music soundBang = new Music("bang.wav", false);
+//	Music soundHaha = new Music("haha.wav", false);
+	
+	//boolean variables to keep track of which keys were found
+	
+	//frame width/height
+	static int width = 450;
+	static int height = 650;
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	boolean[][] grid = new boolean[9][9];
@@ -20,82 +52,130 @@ public class Frame extends JPanel implements MouseListener {
 	boolean[] rowClear = new boolean[9];
 	boolean[] colClear = new boolean[9];
 	
+
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-//		g.fillRect(50, 50, 50, 50);
+		g.drawLine(0, 450, 450, 450);
+		//paint the objects that you have
 		for (int i = 0; i < blocks.size(); i++) {
 			blocks.get(i).paint(g);
 		}
+		
 	}
 	
-	public Frame() {
-		JFrame f = new JFrame();
-		f.setSize(450, 650);
-		f.setBackground(Color.GRAY);
+	//for kill screen, draw this image
+	//reset lives removes the last heart in the list
+	//main 
+	public static void main(String[] arg) {
+		Frame f = new Frame();
+
 		
+	}
+	
+	 
+	
+	public Frame() {
+		JFrame f = new JFrame("Duck Hunt");
+		f.setSize(new Dimension(width, height));
+		f.setBackground(Color.white);
+		f.add(this);
 		f.setResizable(false);
-		f.addMouseListener(this);
-		if (blocks.size()==0) {
+ 		f.addMouseListener(this);
+	
+ 		if (blocks.size()==0) {
 			for (int i = 0; i < 3; i++) {
 				int num = (int) (Math.random()*7);
 				if (num==0) {
-					blocks.add(new Square(50*(i+2), 470, 80, 80));
+					blocks.add(new Square(50*(3*i+1), 470, 80, 80));
 				}
 				else if (num==1) {
-					blocks.add(new RightL(50*(i+2), 470, 80, 120));
+					blocks.add(new RightL(50*(3*i+1), 470, 80, 120));
 				}
 				else if (num==2 ) {
-					blocks.add(new LeftL(50*(i+2), 470, 80, 120));
+					blocks.add(new LeftL(50*(3*i+1), 470, 80, 120));
 				}
 				else if (num==3) {
-					blocks.add(new Line(50*(i+2), 470, 40, 160));
+					blocks.add(new Line(50*(3*i+1), 470, 40, 160));
 				}
 				else if (num==4) {
-					blocks.add(new T(50*(i+2), 470, 120, 80));
+					blocks.add(new T(50*(3*i+1), 470, 120, 80));
 				}
 				else if (num==5) {
-					blocks.add(new LeftZ(50*(i+2), 470, 120, 80));
+					blocks.add(new LeftZ(50*(3*i+1), 470, 120, 80));
 				}
 				else if (num==6) {
-					blocks.add(new RightZ(50*(i+2), 470, 120, 80));
+					blocks.add(new RightZ(50*(3*i+1), 470, 120, 80));
 				}
 			}
 			
 		}
+
+//		backgroundMusic.play();
+
+		/*
+		 * Setup any 1D array here! - create the objects that go in them ;)
+		 */
 		
+//		for (int i = 0; i < row1.length; i++) {
+//			//create the object and put in the array at position i!
+//			row1[i] = new Imposter(i*170, 430);
+//			
+//		}
+		// creates a new object for each item in array or list
+		
+		
+		//the cursor image must be outside of the src folder
+		//you will need to import a couple of classes to make it fully 
+		//functional! use eclipse quick-fixes
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+				new ImageIcon("torch.png").getImage(),
+				new Point(0,0),"custom cursor"));	
+		
+		
+		Timer t = new Timer(16, this);
+		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
 	
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
-}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent m) {
+		
+	
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		repaint();
+	}
+
+	
+	}
+

@@ -12,8 +12,8 @@ public class T extends Block{
 	private Image forward;
 	private AffineTransform tx;
 	
-	double scaleWidth = 1;
-	double scaleHeight = 1;
+	double scaleWidth = 0.03;
+	double scaleHeight = 0.03;
 
 	public T(int x, int y, int width, int height) {
 		super(x, y, width, height);
