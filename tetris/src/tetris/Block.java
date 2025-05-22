@@ -26,6 +26,25 @@ public class Block {
 		this.height = height;
 		box = new Rectangle(x, y, width, height);
 	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+
+
 
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
