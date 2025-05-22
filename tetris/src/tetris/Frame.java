@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener; 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -25,14 +26,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Frame extends JPanel implements ActionListener, MouseListener {
+public class Frame extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 	//ints to keep track of the state of the game
 	
 	//Timer related variables
 	int waveTimer = 5; //each wave of enemies is 20s
 	long ellapseTime = 0;
 	Font timeFont = new Font("Courier", Font.BOLD, 70);
-	
 	//font and music variables
 	Font myFont = new Font("Courier", Font.BOLD, 40);
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
@@ -51,7 +51,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener {
 	int score = 0;
 	boolean[] rowClear = new boolean[9];
 	boolean[] colClear = new boolean[9];
-	
+	Block draggingBlock = null;
+	int offsetX, offsetY;
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -81,7 +82,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener {
 		f.add(this);
 		f.setResizable(false);
  		f.addMouseListener(this);
-	
+ 		f.addMouseMotionListener(this);
+ 		
  		if (blocks.size()==0) {
 			for (int i = 0; i < 3; i++) {
 				int num = (int) (Math.random()*7);
@@ -127,9 +129,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener {
 		//the cursor image must be outside of the src folder
 		//you will need to import a couple of classes to make it fully 
 		//functional! use eclipse quick-fixes
-		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-				new ImageIcon("torch.png").getImage(),
-				new Point(0,0),"custom cursor"));	
+		
+// 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+//				new ImageIcon("torch.png").getImage(),
+//				new Point(0,0),"custom cursor"));	
 		
 		
 		Timer t = new Timer(16, this);
@@ -152,24 +155,41 @@ public class Frame extends JPanel implements ActionListener, MouseListener {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(MouseEvent e) {
+	    int mx = e.getX();
+	    int my = e.getY();
+
+	    for (Block b : blocks) {
+	        Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
+	        if (r.contains(mx, my)) {
+	            draggingBlock = b;
+	            offsetX = mx - b.x;
+	            offsetY = my - b.y;
+	            break;
+	        }
+	    }
 	}
 
 	@Override
-	public void mousePressed(MouseEvent m) {
-		
+	public void mouseDragged(MouseEvent e) {
+	    if (draggingBlock != null) {
+	        draggingBlock.x = e.getX() - offsetX;
+	        draggingBlock.y = e.getY() - offsetY;
+	        repaint();
+	    }
+	}
+	@Override
+	public void mouseMoved(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	    draggingBlock = null; // optional safety
+	}
 	
-		
-	}
-
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseReleased(MouseEvent e) {
+	    draggingBlock = null;
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -177,5 +197,5 @@ public class Frame extends JPanel implements ActionListener, MouseListener {
 	}
 
 	
-	}
+}
 
