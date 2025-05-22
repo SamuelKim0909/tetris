@@ -189,6 +189,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	    draggingBlock = null;
+	    
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
