@@ -17,6 +17,7 @@ public class Block {
 	double scaleWidth = 0.05;
 	double scaleHeight = 0.05;
 	Rectangle box;
+	boolean draggable = true;
 	
 	public Block(int x, int y, int width, int height) {
 

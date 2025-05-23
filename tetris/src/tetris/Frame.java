@@ -33,6 +33,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	int waveTimer = 5; //each wave of enemies is 20s
 	long ellapseTime = 0;
 	Font timeFont = new Font("Courier", Font.BOLD, 70);
+	int blockCount = 0;
 	
 	//font and music variables
 	Font myFont = new Font("Courier", Font.BOLD, 40);
@@ -58,7 +59,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		g.drawRect(200, 1, 450, 450);
+		g.drawRect(0, 0, 450, 450);
 		//paint the objects that you have
 		for (int i = 0; i < blocks.size(); i++) {
 			blocks.get(i).paint(g);
@@ -110,6 +111,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 				else if (num==6) {
 					blocks.add(new RightZ(250*i+50, 470, 150, 100));
 				}
+				blockCount++;
 			}
 			
 		}
@@ -159,17 +161,23 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    draggingBlock = null; // optional safety
 	}
 	
-	@Override
 	public void mouseReleased(MouseEvent e) {
-	    draggingBlock = null;
-	    
+	    if (draggingBlock != null) {
+	        System.out.println("Block released at: (" + draggingBlock.x + ", " + draggingBlock.y + ")");
+	        if(draggingBlock.y<450) {
+	        	draggingBlock.draggable = false; // Make it ungrabbable
+	        }
+	        draggingBlock = null;
+	    }
 	}
-	
+
 	public void mousePressed(MouseEvent e) {
 	    int mx = e.getX();
 	    int my = e.getY();
 
 	    for (Block b : blocks) {
+	        if (!b.draggable) continue; // Skip if it's ungrabbable
+
 	        Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
 	        if (r.contains(mx, my)) {
 	            draggingBlock = b;
