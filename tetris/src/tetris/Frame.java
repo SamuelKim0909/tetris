@@ -88,34 +88,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
  		f.addMouseMotionListener(this);
  		
  		if (blocks.size()==0) {
-			for (int i = 0; i < 3; i++) {
-				int num = (int) (Math.random()*7);
-				if (num==0) {
-					blocks.add(new Square(250*i+50, 470, 100, 100));
-				}
-				else if (num==1) {
-					blocks.add(new RightL(250*i+50, 470, 100, 150));
-				}
-				else if (num==2 ) {
-					blocks.add(new LeftL(250*i+50, 470, 100, 150));
-				}
-				else if (num==3) {
-					blocks.add(new Line(250*i+50, 470, 50, 200));
-				}
-				else if (num==4) {
-					blocks.add(new T(250*i+50, 470, 150, 100));
-				}
-				else if (num==5) {
-					blocks.add(new LeftZ(250*i+50, 470, 150, 100));
-				}
-				else if (num==6) {
-					blocks.add(new RightZ(250*i+50, 470, 150, 100));
-				}
-				blockCount++;
-			}
-			
+			generate();
 		}
 
+ 		
+ 		
 //		backgroundMusic.play();
 
 		/*
@@ -144,7 +121,33 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		f.setVisible(true);
 	}
 	
-	
+	public void generate() {
+		for (int i = 0; i < 3; i++) {
+			int num = (int) (Math.random()*7);
+			if (num==0) {
+				blocks.add(new Square(250*i+50, 470, 100, 100));
+			}
+			else if (num==1) {
+				blocks.add(new RightL(250*i+50, 470, 100, 150));
+			}
+			else if (num==2 ) {
+				blocks.add(new LeftL(250*i+50, 470, 100, 150));
+			}
+			else if (num==3) {
+				blocks.add(new Line(250*i+50, 470, 50, 200));
+			}
+			else if (num==4) {
+				blocks.add(new T(250*i+50, 470, 150, 100));
+			}
+			else if (num==5) {
+				blocks.add(new LeftZ(250*i+50, 470, 150, 100));
+			}
+			else if (num==6) {
+				blocks.add(new RightZ(250*i+50, 470, 150, 100));
+			}
+			blockCount++;
+		}	
+	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -166,8 +169,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	        System.out.println("Block released at: (" + draggingBlock.x + ", " + draggingBlock.y + ")");
 	        if(draggingBlock.y<450) {
 	        	draggingBlock.draggable = false; // Make it ungrabbable
+	        	blockCount--;
 	        }
 	        draggingBlock = null;
+	        if(blockCount==0) {
+	        	generate();
+	        }
 	    }
 	}
 
