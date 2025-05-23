@@ -33,6 +33,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	int waveTimer = 5; //each wave of enemies is 20s
 	long ellapseTime = 0;
 	Font timeFont = new Font("Courier", Font.BOLD, 70);
+	
 	//font and music variables
 	Font myFont = new Font("Courier", Font.BOLD, 40);
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
@@ -43,20 +44,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	//boolean variables to keep track of which keys were found
 	
 	//frame width/height
-	static int width = 450;
-	static int height = 650;
+	static int width = 850;
+	static int height = 750;
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	boolean[][] grid = new boolean[9][9];
 	int score = 0;
 	boolean[] rowClear = new boolean[9];
 	boolean[] colClear = new boolean[9];
+	
 	Block draggingBlock = null;
 	int offsetX, offsetY;
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		g.drawLine(0, 450, 450, 450);
+		g.drawRect(200, 1, 450, 450);
 		//paint the objects that you have
 		for (int i = 0; i < blocks.size(); i++) {
 			blocks.get(i).paint(g);
@@ -88,25 +90,25 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 			for (int i = 0; i < 3; i++) {
 				int num = (int) (Math.random()*7);
 				if (num==0) {
-					blocks.add(new Square(50*(3*i+1), 470, 80, 80));
+					blocks.add(new Square(250*i+50, 470, 100, 100));
 				}
 				else if (num==1) {
-					blocks.add(new RightL(50*(3*i+1), 470, 80, 120));
+					blocks.add(new RightL(250*i+50, 470, 100, 150));
 				}
 				else if (num==2 ) {
-					blocks.add(new LeftL(50*(3*i+1), 470, 80, 120));
+					blocks.add(new LeftL(250*i+50, 470, 100, 150));
 				}
 				else if (num==3) {
-					blocks.add(new Line(50*(3*i+1), 470, 40, 160));
+					blocks.add(new Line(250*i+50, 470, 50, 200));
 				}
 				else if (num==4) {
-					blocks.add(new T(50*(3*i+1), 470, 120, 80));
+					blocks.add(new T(250*i+50, 470, 150, 100));
 				}
 				else if (num==5) {
-					blocks.add(new LeftZ(50*(3*i+1), 470, 120, 80));
+					blocks.add(new LeftZ(250*i+50, 470, 150, 100));
 				}
 				else if (num==6) {
-					blocks.add(new RightZ(50*(3*i+1), 470, 120, 80));
+					blocks.add(new RightZ(250*i+50, 470, 150, 100));
 				}
 			}
 			
@@ -129,8 +131,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		//the cursor image must be outside of the src folder
 		//you will need to import a couple of classes to make it fully 
 		//functional! use eclipse quick-fixes
-		
-// 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+//		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 //				new ImageIcon("torch.png").getImage(),
 //				new Point(0,0),"custom cursor"));	
 		
@@ -154,7 +155,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		
 	}
 
+	public void mouseExited(MouseEvent e) {
+	    draggingBlock = null; // optional safety
+	}
+	
 	@Override
+	public void mouseReleased(MouseEvent e) {
+	    draggingBlock = null;
+	}
+	
 	public void mousePressed(MouseEvent e) {
 	    int mx = e.getX();
 	    int my = e.getY();
@@ -170,7 +179,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 	}
 
-	@Override
 	public void mouseDragged(MouseEvent e) {
 	    if (draggingBlock != null) {
 	        draggingBlock.x = e.getX() - offsetX;
@@ -181,16 +189,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-	    draggingBlock = null; // optional safety
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	    draggingBlock = null;
-	    
-	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -198,5 +197,4 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 
 	
-}
-
+	}
