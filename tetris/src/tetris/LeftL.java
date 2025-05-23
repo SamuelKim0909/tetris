@@ -12,8 +12,8 @@ public class LeftL extends Block{
 	private Image forward;
 	private AffineTransform tx;
 	
-	double scaleWidth = 0.03;
-	double scaleHeight = 0.03;
+	double scaleWidth = 0.05;
+	double scaleHeight = 0.05;
 
 	public LeftL(int x, int y, int width, int height) {
 		super(x, y, width, height);

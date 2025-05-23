@@ -162,6 +162,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	    draggingBlock = null;
+	    
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -181,9 +182,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 
 	public void mouseDragged(MouseEvent e) {
 	    if (draggingBlock != null) {
-	        draggingBlock.x = e.getX() - offsetX;
-	        draggingBlock.y = e.getY() - offsetY;
-	        repaint();
+	        int mx = e.getX();
+	        int my = e.getY();
+
+	        // Snap new position to 50x50 grid
+	        draggingBlock.x = ((mx - offsetX) / 50) * 50;
+	        draggingBlock.y = ((my - offsetY) / 50) * 50;
 	    }
 	}
 	@Override
