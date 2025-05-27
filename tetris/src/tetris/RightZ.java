@@ -22,6 +22,11 @@ public class RightZ extends Block{
 		init(x,y);
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String getShape() {
+		return "RightZ";
+	}
+	
 	
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen

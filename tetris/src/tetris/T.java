@@ -35,6 +35,12 @@ public class T extends Block{
 		
 
 	}
+	
+	@Override
+	public String getShape() {
+		return "T";
+	}
+	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(scaleWidth, scaleHeight);

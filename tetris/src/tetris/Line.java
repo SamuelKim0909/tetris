@@ -34,6 +34,11 @@ public class Line extends Block{
 		
 
 	}
+	@Override
+	public String getShape() {
+		return "Line";
+	}
+	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(scaleWidth, scaleHeight);

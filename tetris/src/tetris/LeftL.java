@@ -40,6 +40,13 @@ public class LeftL extends Block{
 		tx.scale(scaleWidth, scaleHeight);
 	}
 	
+	
+	@Override
+	public String getShape() {
+		return "LeftL";
+	}
+	
+	
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

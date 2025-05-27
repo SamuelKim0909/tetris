@@ -35,6 +35,12 @@ public class Square extends Block{
 		
 
 	}
+	@Override
+	public String getShape() {
+		return "Square";
+	}
+	
+	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
 		tx.scale(scaleWidth, scaleHeight);

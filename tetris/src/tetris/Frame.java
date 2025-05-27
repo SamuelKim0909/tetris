@@ -34,7 +34,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	long ellapseTime = 0;
 	Font timeFont = new Font("Courier", Font.BOLD, 70);
 	int blockCount = 0;
-	
+	private int originalX, originalY;
 	//font and music variables
 	Font myFont = new Font("Courier", Font.BOLD, 40);
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
@@ -56,7 +56,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	
 	Block draggingBlock = null;
 	int offsetX, offsetY;
-
+	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		g.drawRect(0, 0, 450, 450);
@@ -64,15 +64,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		for (int i = 0; i < blocks.size(); i++) {
 			blocks.get(i).paint(g);
 		}
-		
 	}
+	
 	
 	//for kill screen, draw this image
 	//reset lives removes the last heart in the list
 	//main 
 	public static void main(String[] arg) {
 		Frame f = new Frame();
-
+		
 		
 	}
 	
@@ -91,6 +91,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 			generate();
 		}
 
+ 		for(int i = 0; i<grid.length; i++) {
+ 			for(int j = 0; j<grid[i].length; j++) {
+ 				grid[i][j] = true;
+ 			}
+ 		}
  		
  		
 //		backgroundMusic.play();
@@ -122,28 +127,41 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 	
 	public void generate() {
+		int length = 0;
 		for (int i = 0; i < 3; i++) {
-			int num = (int) (Math.random()*7);
+			int num = (int)(Math.random()*7);
 			if (num==0) {
-				blocks.add(new Square(250*i+50, 470, 100, 100));
+				blocks.add(new Square(length+(10*i), 470, 100, 100));
+				length += 100;
 			}
 			else if (num==1) {
-				blocks.add(new RightL(250*i+50, 470, 100, 150));
+				blocks.add(new RightL(length+(10*i), 470, 100, 150));
+				length += 100;
+
 			}
 			else if (num==2 ) {
-				blocks.add(new LeftL(250*i+50, 470, 100, 150));
+				blocks.add(new LeftL(length+(10*i), 470, 100, 150));
+				length += 100;
+
 			}
 			else if (num==3) {
-				blocks.add(new Line(250*i+50, 470, 50, 200));
+				blocks.add(new Line(length+(10*i), 470, 50, 200));
+				length += 50;
+
 			}
 			else if (num==4) {
-				blocks.add(new T(250*i+50, 470, 150, 100));
+				blocks.add(new T(length+(10*i), 470, 150, 100));
+				length += 150;
+
 			}
 			else if (num==5) {
-				blocks.add(new LeftZ(250*i+50, 470, 150, 100));
+				blocks.add(new LeftZ(length+(10*i), 470, 150, 100));
+				length += 150;
+
 			}
 			else if (num==6) {
-				blocks.add(new RightZ(250*i+50, 470, 150, 100));
+				blocks.add(new RightZ(length+(10*i), 470, 150, 100));
+				length += 150;
 			}
 			blockCount++;
 		}	
@@ -167,14 +185,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	public void mouseReleased(MouseEvent e) {
 	    if (draggingBlock != null) {
 	        System.out.println("Block released at: (" + draggingBlock.x + ", " + draggingBlock.y + ")");
-	        if(draggingBlock.y<450) {
-	        	draggingBlock.draggable = false; // Make it ungrabbable
-	        	blockCount--;
-	        }
-	        draggingBlock = null;
-	        if(blockCount==0) {
-	        	generate();
-	        }
+		    System.out.println(draggingBlock.getShape());
+		    if(draggingBlock.available(draggingBlock.getX(),draggingBlock.getY(),grid,draggingBlock.getShape())){
+		    	draggingBlock.coordinate(draggingBlock.getX(),draggingBlock.getY(),grid,draggingBlock.getShape());	
+		    	if(draggingBlock.y<450) {
+		        	draggingBlock.draggable = false; // Make it ungrabbable
+		        	blockCount--;
+		        }
+		    	draggingBlock = null;
+		        if(blockCount==0) {
+		        	generate();
+		        }
+		    }else {
+		    	draggingBlock.x = originalX;
+	            draggingBlock.y = originalY;
+		    }
 	    }
 	}
 
@@ -190,6 +215,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	            draggingBlock = b;
 	            offsetX = mx - b.x;
 	            offsetY = my - b.y;
+	            
+	            originalX = b.x;
+	            originalY = b.y;
 	            break;
 	        }
 	    }

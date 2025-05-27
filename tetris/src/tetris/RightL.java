@@ -22,7 +22,12 @@ public class RightL extends Block{
 		init(x,y);
 		// TODO Auto-generated constructor stub
 	}
-
+	@Override
+	public String getShape() {
+		return "RightL";
+	}
+	
+	
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;
