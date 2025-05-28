@@ -56,7 +56,7 @@ public class Block {
 		int col= (x+1)/50;
 		int row= (y+1)/50;
 		if(type.equals("LeftL")){
-			if(col+1>7|| row+2>7) {
+			if(col+1>8|| row+2>8) {
 				return false;
 			}else if(grid[row][col] == false||
 			grid[row+1][col] == false||
@@ -65,7 +65,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("LeftZ")) {
-			if(col+2>7|| row+1>7) {
+			if(col+2>8|| row+1>8) {
 				return false;
 			}else if(grid[row][col+1] == false||
 			grid[row][col+2] == false||
@@ -74,7 +74,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("Line")) {
-			if(col>7|| row+3>7) {
+			if(col>8|| row+3>8) {
 				return false;
 			}else if(grid[row][col] == false||
 			grid[row+1][col] == false||
@@ -83,7 +83,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("RightL")) {
-			if(col+1>7|| row+2>7) {
+			if(col+1>8|| row+2>8) {
 				return false;
 			}else if(grid[row][col+1] == false||
 			grid[row+1][col+1] == false||
@@ -92,7 +92,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("RightZ")) {
-			if(col+2>7|| row+1>7) {
+			if(col+2>8|| row+1>8) {
 				return false;
 			}else if(grid[row][col] == false||
 			grid[row][col+1] == false||
@@ -101,7 +101,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("Square")) {
-			if(col+1>7|| row+1>7) {
+			if(col+1>8|| row+1>8) {
 				return false;
 			}else if(grid[row][col+1] == false||
 			grid[row+1][col+1] == false||
@@ -110,7 +110,7 @@ public class Block {
 				return false;
 			}
 		}else if(type.equals("T")) {
-			if(col+2>7|| row+1>7) {
+			if(col+2>8|| row+1>8) {
 				return false;
 			}else if(grid[row][col] == false||
 			grid[row][col+1] == false||

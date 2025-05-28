@@ -45,8 +45,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	//boolean variables to keep track of which keys were found
 	
 	//frame width/height
-	static int width = 850;
-	static int height = 750;
+	static int width = 850; 
+	static int height = 750; 
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	boolean[][] grid = new boolean[9][9];
@@ -64,7 +64,50 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		for (int i = 0; i < blocks.size(); i++) {
 			blocks.get(i).paint(g);
 		}
+		boolean allFalse = true;
+		int rowIndex = 0;
+		for (int i = 0; i < grid.length; i++) {
+			allFalse = true;
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]) {
+					rowIndex++;
+					allFalse = false;
+					break;
+				}
+			}
+			if (allFalse) {
+				g.setColor(Color.GRAY);
+				g.fillRect(0, rowIndex*50, 450, 50);
+				clearRow(rowIndex);
+			}
+			
+		}
+		
+		boolean colAllFalse = true;
+		int colIndex = 0;
+//		for (int i = 0; i < grid[i].length; i++) {
+//			for (int j = 0; j < grid.length; j++) {
+//				
+//			}
+//		}
 	}
+	
+	public void clearRow(int rowIndex) {
+		for (int j = rowIndex; j < grid[rowIndex].length; j++) {
+			grid[rowIndex][j] = true;
+			
+		}
+	}
+	public void clearCol(int colIndex) {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (j==colIndex) {
+					grid[i][j] = true;
+				}
+			}
+		}
+	}
+
 	
 	
 	//for kill screen, draw this image
@@ -234,7 +277,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 	}
 	@Override
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {
+	}
 
 
 	@Override
@@ -244,4 +288,4 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 
 	
-	}
+}
