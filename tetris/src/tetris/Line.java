@@ -20,6 +20,7 @@ public class Line extends Block{
 		forward = getImage("/imgs/"+"line.png");
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		init(x,y);
+
 		// TODO Auto-generated constructor stub
 	}
 	public void paint(Graphics g) {

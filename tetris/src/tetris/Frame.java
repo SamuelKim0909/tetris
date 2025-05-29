@@ -37,6 +37,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	private int originalX, originalY;
 	//font and music variables
 	Font myFont = new Font("Courier", Font.BOLD, 40);
+	boolean check = false;
+	int currNum = 0;
+	int nextNum = 0;
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
 //	SimpleAudioPlayer backgroundMusic2 = new SimpleAudioPlayer("sound2.wav", false);
 //	Music soundBang = new Music("bang.wav", false);
@@ -49,7 +52,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	static int height = 750; 
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
-	boolean[][] grid = new boolean[9][9];
+	int [][] grid = new int [9][9];
+	//true = 1, false = 2, something else = 3;
 	int score = 0;
 	boolean[] rowClear = new boolean[9];
 	boolean[] colClear = new boolean[9];
@@ -57,52 +61,73 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	Block draggingBlock = null;
 	int offsetX, offsetY;
 	
+	public void clearing(Graphics g) {
+	    for(int i = 0; i<grid.length; i++) {
+	    	for(int j = 0; j<grid[i].length; j++) {
+    			if(grid[i][j] == 3) {
+    				g.setColor(Color.GRAY);
+    				g.fillRect(j*50, i * 50, 50, 50); // Use i, not rowIndex
+    			}
+    		}
+	    }
+	}
+	
 	public void paint(Graphics g) {
-		super.paintComponent(g);
-		g.drawRect(0, 0, 450, 450);
-		//paint the objects that you have
-		for (int i = 0; i < blocks.size(); i++) {
-			blocks.get(i).paint(g);
-		}
-		boolean allFalse = true;
-		int rowIndex = 0;
-		for (int i = 0; i < grid.length; i++) {
-			allFalse = true;
-			for (int j = 0; j < grid[i].length; j++) {
-				if (grid[i][j]) {
-					rowIndex++;
-					allFalse = false;
-					break;
-				}
-			}
-			if (allFalse) {
-				g.setColor(Color.GRAY);
-				g.fillRect(0, rowIndex*50, 450, 50);
-				clearRow(rowIndex);
-			}
-			
-		}
-		
-		boolean colAllFalse = true;
-		int colIndex = 0;
-//		for (int i = 0; i < grid[i].length; i++) {
-//			for (int j = 0; j < grid.length; j++) {
-//				
-//			}
-//		}
+	    super.paintComponent(g);
+	    g.setColor(Color.GRAY);
+	    g.fillRect(0, 0, 850, 750);
+	    g.setColor(Color.BLACK);
+	    g.drawRect(0, 0, 450, 450);
+	    clearing(g);
+	    // Paint the blocks first
+	    for (int i = 0; i < blocks.size(); i++) {
+	    	if(blocks.get(i).old) {
+	    		blocks.get(i).paint(g);
+	    	}
+	    }
+//	    System.out.println(toString());
+//	    for(int i = 0; i<grid.length; i++) {
+//	    	for(int j = 0; j<grid[i].length; j++) {
+//	    		if(grid[i][j] == true) {
+//	    			g.setColor(Color.GRAY);
+//	    			g.fillRect(j*50, i * 50, 50, 50); // Use i, not rowIndex
+//	    		}
+//	    	}
+//	    }
+	    // Now draw the gray rectangles on top of any empty rows
+	    for (int i = 0; i < grid.length; i++) {
+	        boolean allFalse = true;
+	        for (int j = 0; j < grid[i].length; j++) {
+	            if (grid[i][j]==1||grid[i][j] == 3) {
+	                allFalse = false;
+	                break;
+	            }
+	        }
+	        if (allFalse) {
+	            clearRow(i); // Optional: clear the row if needed
+	        }
+	    }
+	    clearing(g);
+	    for (int i = 0; i < blocks.size(); i++) {
+	    	if(blocks.get(i).old==false) {
+	    		blocks.get(i).paint(g);
+	    	}
+	    }
 	}
 	
 	public void clearRow(int rowIndex) {
-		for (int j = rowIndex; j < grid[rowIndex].length; j++) {
-			grid[rowIndex][j] = true;
-			
+		for (int j = 0; j < grid[rowIndex].length; j++) {
+			grid[rowIndex][j] = 3;
 		}
+		System.out.println("clearRow");
+		System.out.println(toString());
 	}
+	
 	public void clearCol(int colIndex) {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				if (j==colIndex) {
-					grid[i][j] = true;
+					grid[i][j] = 3;
 				}
 			}
 		}
@@ -136,7 +161,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 
  		for(int i = 0; i<grid.length; i++) {
  			for(int j = 0; j<grid[i].length; j++) {
- 				grid[i][j] = true;
+ 				grid[i][j] = 1;
  			}
  		}
  		
@@ -170,7 +195,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 	
 	public void generate() {
+//		currNum = Block.number;
 		int length = 0;
+//		int number = Block.number;
 		for (int i = 0; i < 3; i++) {
 			int num = (int)(Math.random()*7);
 			if (num==0) {
@@ -207,6 +234,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 				length += 150;
 			}
 			blockCount++;
+//			nextNum = Block.number;
+
 		}	
 	}
 	@Override
@@ -234,16 +263,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    	if(draggingBlock.y<450) {
 		        	draggingBlock.draggable = false; // Make it ungrabbable
 		        	blockCount--;
+		        	draggingBlock.old = true;
 		        }
 		    	draggingBlock = null;
 		        if(blockCount==0) {
 		        	generate();
 		        }
+
 		    }else {
 		    	draggingBlock.x = originalX;
 	            draggingBlock.y = originalY;
 		    }
 	    }
+	    check = true;
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -286,6 +318,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		// TODO Auto-generated method stub
 		repaint();
 	}
-
+	
+	public String toString() {
+		String result = "";
+		for(int i = 0; i<grid.length; i++) {
+			for(int j = 0; j<grid[i].length; j++) {
+				String answer = "";
+				if(grid[i][j]==1) {
+					answer = "1";
+				}else if(grid[i][j] ==2){
+					answer = "2";
+				}else if(grid[i][j] == 3){
+					answer = "3";
+				}
+				result+= " ["+ answer+ "]";
+			}
+			result+= "\n";
+		}
+		return result;
+	}
 	
 }

@@ -10,6 +10,7 @@ import java.net.URL;
 
 public class Block {
 	
+	boolean old = false;
 	int x;
 	int y;
 	int width;
@@ -52,128 +53,138 @@ public class Block {
 		setY(y);
 	}
 	
-	public boolean available(int x, int y, boolean[][] grid, String type) {
+//	public void setNumber(int num) {
+//		number = num;
+//	}
+//	
+//	public int getNumber() {
+//		return number;
+//	}
+	
+	public boolean available(int x, int y, int [][] grid, String type) {
 		int col= (x+1)/50;
 		int row= (y+1)/50;
 		if(type.equals("LeftL")){
 			if(col+1>8|| row+2>8) {
 				return false;
-			}else if(grid[row][col] == false||
-			grid[row+1][col] == false||
-			grid[row+2][col] == false||
-			grid[row+2][col+1] == false) {
+			}else if(grid[row][col] == 2||
+			grid[row+1][col] == 2||
+			grid[row+2][col] == 2||
+			grid[row+2][col+1] == 2) {
 				return false;
 			}
 		}else if(type.equals("LeftZ")) {
 			if(col+2>8|| row+1>8) {
 				return false;
-			}else if(grid[row][col+1] == false||
-			grid[row][col+2] == false||
-			grid[row+1][col] == false||
-			grid[row+1][col+1] == false) {
+			}else if(grid[row][col+1] == 2||
+			grid[row][col+2] == 2||
+			grid[row+1][col] == 2||
+			grid[row+1][col+1] == 2) {
 				return false;
 			}
 		}else if(type.equals("Line")) {
 			if(col>8|| row+3>8) {
 				return false;
-			}else if(grid[row][col] == false||
-			grid[row+1][col] == false||
-			grid[row+2][col] == false||
-			grid[row+3][col] == false) {
+			}else if(grid[row][col] == 2||
+			grid[row+1][col] == 2||
+			grid[row+2][col] == 2||
+			grid[row+3][col] == 2) {
 				return false;
 			}
 		}else if(type.equals("RightL")) {
 			if(col+1>8|| row+2>8) {
 				return false;
-			}else if(grid[row][col+1] == false||
-			grid[row+1][col+1] == false||
-			grid[row+2][col+1] == false||
-			grid[row+2][col] == false) {
+			}else if(grid[row][col+1] == 2||
+			grid[row+1][col+1] == 2||
+			grid[row+2][col+1] == 2||
+			grid[row+2][col] == 2) {
 				return false;
 			}
 		}else if(type.equals("RightZ")) {
 			if(col+2>8|| row+1>8) {
 				return false;
-			}else if(grid[row][col] == false||
-			grid[row][col+1] == false||
-			grid[row+1][col+1] == false||
-			grid[row+1][col+2] == false) {
+			}else if(grid[row][col] == 2||
+			grid[row][col+1] == 2||
+			grid[row+1][col+1] == 2||
+			grid[row+1][col+2] == 2) {
 				return false;
 			}
 		}else if(type.equals("Square")) {
 			if(col+1>8|| row+1>8) {
 				return false;
-			}else if(grid[row][col+1] == false||
-			grid[row+1][col+1] == false||
-			grid[row+1][col] == false||
-			grid[row][col] == false) {
+			}else if(grid[row][col+1] == 2||
+			grid[row+1][col+1] == 2||
+			grid[row+1][col] == 2||
+			grid[row][col] == 2) {
 				return false;
 			}
 		}else if(type.equals("T")) {
 			if(col+2>8|| row+1>8) {
 				return false;
-			}else if(grid[row][col] == false||
-			grid[row][col+1] == false||
-			grid[row][col+2] == false||
-			grid[row+1][col+1] == false) {
+			}else if(grid[row][col] == 2||
+			grid[row][col+1] == 2||
+			grid[row][col+2] == 2||
+			grid[row+1][col+1] == 2) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public boolean[][] coordinate(int x, int y, boolean[][] grid, String type) {
+	public int[][] coordinate(int x, int y, int [][] grid, String type) {
 		int col= (x+1)/50;
 		int row= (y+1)/50;
 		if(type.equals("LeftL")) {
-			grid[row][col] = false;
-			grid[row+1][col] = false;
-			grid[row+2][col] = false;
-			grid[row+2][col+1] = false;
+			grid[row][col] = 2;
+			grid[row+1][col] = 2;
+			grid[row+2][col] = 2;
+			grid[row+2][col+1] = 2;
 		}else if(type.equals("LeftZ")) {
-			grid[row][col+1] = false;
-			grid[row][col+2] = false;
-			grid[row+1][col] = false;
-			grid[row+1][col+1] = false;
+			grid[row][col+1] = 2;
+			grid[row][col+2] = 2;
+			grid[row+1][col] = 2;
+			grid[row+1][col+1] = 2;
 		}else if(type.equals("Line")) {
-			grid[row][col] = false;
-			grid[row+1][col] = false;
-			grid[row+2][col] = false;
-			grid[row+3][col] = false;
+			grid[row][col] = 2;
+			grid[row+1][col] = 2;
+			grid[row+2][col] = 2;
+			grid[row+3][col] = 2;
 		}else if(type.equals("RightL")) {
-			grid[row][col+1] = false;
-			grid[row+1][col+1] = false;
-			grid[row+2][col+1] = false;
-			grid[row+2][col] = false;
+			grid[row][col+1] = 2;
+			grid[row+1][col+1] = 2;
+			grid[row+2][col+1] = 2;
+			grid[row+2][col] = 2;
 		}else if(type.equals("RightZ")) {
-			grid[row][col] = false;
-			grid[row][col+1] = false;
-			grid[row+1][col+1] = false;
-			grid[row+1][col+2] = false;
+			grid[row][col] = 2;
+			grid[row][col+1] = 2;
+			grid[row+1][col+1] = 2;
+			grid[row+1][col+2] = 2;
 		}else if(type.equals("Square")) {
-			grid[row][col+1] = false;
-			grid[row+1][col+1] = false;
-			grid[row+1][col] = false;
-			grid[row][col] = false;
+			grid[row][col+1] = 2;
+			grid[row+1][col+1] = 2;
+			grid[row+1][col] = 2;
+			grid[row][col] = 2;
 		}else if(type.equals("T")) {
-			grid[row][col] = false;
-			grid[row][col+1] = false;
-			grid[row][col+2] = false;
-			grid[row+1][col+1] = false;
+			grid[row][col] = 2;
+			grid[row][col+1] = 2;
+			grid[row][col+2] = 2;
+			grid[row+1][col+1] = 2;
 		}
 		System.out.println(toString(grid));
 		return grid;
 	}
 
-	public String toString(boolean[][] grid) {
+	public String toString(int[][] grid) {
 		String result = "";
 		for(int i = 0; i<grid.length; i++) {
 			for(int j = 0; j<grid[i].length; j++) {
 				String answer = "";
-				if(grid[i][j]) {
-					answer = "T";
-				}else {
-					answer = "F";
+				if(grid[i][j]==1) {
+					answer = "1";
+				}else if(grid[i][j] ==2){
+					answer = "2";
+				}else if(grid[i][j] == 3){
+					answer = "3";
 				}
 				result+= " ["+ answer+ "]";
 			}

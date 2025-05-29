@@ -20,6 +20,7 @@ public class RightL extends Block{
 		forward = getImage("/imgs/"+"rightL.png");
 		tx = AffineTransform.getTranslateInstance(0, 0);
 		init(x,y);
+
 		// TODO Auto-generated constructor stub
 	}
 	@Override
