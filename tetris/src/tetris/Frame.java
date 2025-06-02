@@ -107,6 +107,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	            clearRow(i); // Optional: clear the row if needed
 	        }
 	    }
+	    for (int i = 0; i < grid[0].length; i++) {
+	        boolean allFalse = true;
+	        for (int j = 0; j < grid.length; j++) {
+	            if (grid[j][i]==1||grid[j][i] == 3) {
+	                allFalse = false;
+	                break;
+	            }
+	        }
+	        if (allFalse) {
+	            clearCol(i); // Optional: clear the row if needed
+	        }
+	    }
 	    clearing(g);
 	    for (int i = 0; i < blocks.size(); i++) {
 	    	if(blocks.get(i).old==false) {
