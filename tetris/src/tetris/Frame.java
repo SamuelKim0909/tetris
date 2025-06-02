@@ -141,6 +141,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    		blocks.get(i).paint(g);
 	    	}
 	    }
+
+	    boolean next = false;
+	    for(int i = 0; i<blocks.size(); i++) {
+	    	if(blocks.get(i).cant(grid, blocks.get(i).getShape())) {
+	    		break;
+	    	}
+	    }
+	    if(next == false) {
+	        g.setColor(Color.WHITE);
+	    	g.drawString("Game Over", 40, 40);
+	    }
 	}
 	
 	public void clearRow(int rowIndex) {
@@ -304,6 +315,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    }
 	    }
 	    check = true;
+	    
 	}
 
 	public void mousePressed(MouseEvent e) {

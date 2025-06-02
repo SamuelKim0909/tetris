@@ -42,8 +42,10 @@ public class Block {
 	}
 
 	public void setY(int y) {
+
 		this.y = y;
 	}
+	
 	public String getShape() {
 		return "null";
 	}
@@ -60,6 +62,89 @@ public class Block {
 //	public int getNumber() {
 //		return number;
 //	}
+	
+	public boolean cant (int [][] grid, String type) {
+		boolean result = false;
+		if(type.equals("LeftL")) {
+			for(int i = 0; i<grid.length-2; i++) {
+				for(int j = 0; j<grid[i].length-1; j++) {
+					if((grid[i][j]==1||grid[i][j]==3)&&
+					(grid[i+1][j]==1||grid[i+1][j]==3)&&
+					(grid[i+2][j]==1||grid[i+2][j]==3)&&
+					(grid[i+2][j+1]==1||grid[i+2][j+1]==3)) {
+						result = true;
+					}	
+				}
+			}
+		}else if(type.equals("leftZ")) {
+			for(int i = 0; i<grid.length-1; i++) {
+				for(int j = 0; j<grid[i].length-2; j++) {
+					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
+					(grid[i][j+2]==1||grid[i][j+2]==3)&&
+					(grid[i+1][j+1]==1||grid[i+1][j+1]==3)&&
+					(grid[i+1][j]==1||grid[i+1][j]==3)) {
+						result = true;
+					}
+				}
+			}
+		}else if(type.equals("line")) {
+			for(int i = 0; i<grid.length-3; i++) {
+				for(int j = 0; j<grid[i].length; j++) {
+					if((grid[i][j]==1||grid[i][j]==3)&&
+					(grid[i+1][j]==1||grid[i+1][j]==3)&&
+					(grid[i+2][j]==1||grid[i+2][j]==3)&&
+					(grid[i+3][j]==1||grid[i+3][j]==3)) {
+						result = true;
+					}
+				}
+			}
+		}else if(type.equals("rightL")) {
+			for(int i = 0; i<grid.length-2; i++) {
+				for(int j = 0; j<grid[i].length-1; j++) {
+					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
+					(grid[i+1][j+1]==1||grid[i+1][j+1]==3)&&
+					(grid[i+2][j+1]==1||grid[i+2][j+1]==3)&&
+					(grid[i+2][j]==1||grid[i+2][j]==3)) {
+						result = true;
+					}	
+				}
+			}
+		}else if(type.equals("rightZ")) {
+			for(int i = 0; i<grid.length-1; i++) {
+				for(int j = 0; j<grid[i].length-2; j++) {
+					if((grid[i][j]==1||grid[i][j]==3)&&
+					(grid[i][j+1]==1||grid[i][j+1]==3)&&
+					(grid[i+1][j+1]==1||grid[i+1][j+1]==3)&&
+					(grid[i+1][j+2]==1||grid[i+1][j+2]==3)) {
+						result = true;
+					}
+				}
+			}
+		}else if(type.equals("square")) {
+			for(int i = 0; i<grid.length-1; i++) {
+				for(int j = 0; j<grid[i].length-1; j++) {
+					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
+					(grid[i][j]==1||grid[i][j]==3)&&
+					(grid[i+1][j+1]==1||grid[i+1][j+1]==3)&&
+					(grid[i+1][j]==1||grid[i+1][j]==3)) {
+						result = true;
+					}
+				}
+			}
+		}else if(type.equals("T")) {
+			for(int i = 0; i<grid.length-1; i++) {
+				for(int j = 0; j<grid[i].length-3; j++) {
+					if((grid[i][j]==1||grid[i][j]==3)&&
+					(grid[i][j+1]==1||grid[i][j+1]==3)&&
+					(grid[i][j+2]==1||grid[i][j+2]==3)&&
+					(grid[i+1][j+1]==1||grid[i+1][j+1]==3)) {
+						result = true;
+					}
+				}
+			}
+		}
+		return result;
+	}
 	
 	public boolean available(int x, int y, int [][] grid, String type) {
 		int col= (x+1)/50;
