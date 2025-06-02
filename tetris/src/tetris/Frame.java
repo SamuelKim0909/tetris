@@ -55,6 +55,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	int [][] grid = new int [9][9];
 	//true = 1, false = 2, something else = 3;
 	int score = 0;
+	int lineCleared = 0;
+	int rowCleared = 0;
+	int colCleared = 0;
 	boolean[] rowClear = new boolean[9];
 	boolean[] colClear = new boolean[9];
 	
@@ -73,11 +76,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 	
 	public void paint(Graphics g) {
+	    
 	    super.paintComponent(g);
 	    g.setColor(Color.GRAY);
 	    g.fillRect(0, 0, 850, 750);
 	    g.setColor(Color.BLACK);
 	    g.drawRect(0, 0, 450, 450);
+	    g.setFont(myFont);
+	    g.setColor(Color.WHITE);
+		g.drawString("Score: " + score+"", 455,40);
+		g.drawString("Lines Cleared: " + lineCleared+"", 455,80);
+		g.drawString("Rows Cleared: " + rowCleared+"", 455,120);
+		g.drawString("Cols Cleared: " + colCleared+"", 455,160);
 	    clearing(g);
 	    // Paint the blocks first
 	    for (int i = 0; i < blocks.size(); i++) {
@@ -104,7 +114,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	            }
 	        }
 	        if (allFalse) {
-	            clearRow(i); // Optional: clear the row if needed
+	        	score+=1000;
+	        	rowCleared ++;
+	        	lineCleared++;
+	        	clearRow(i); // Optional: clear the row if needed
 	        }
 	    }
 	    for (int i = 0; i < grid[0].length; i++) {
@@ -116,6 +129,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	            }
 	        }
 	        if (allFalse) {
+	        	score+=1000;
+	        	colCleared ++;
+	        	lineCleared++;
 	            clearCol(i); // Optional: clear the row if needed
 	        }
 	    }
