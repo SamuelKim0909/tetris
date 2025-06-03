@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Frame extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class Frame extends JPanel implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 	//ints to keep track of the state of the game
 	
 	//Timer related variables
@@ -40,6 +40,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	boolean check = false;
 	int currNum = 0;
 	int nextNum = 0;
+	final int GAME = 0;
+	final int END = 1;
+	int currentState = GAME;
+	JButton button;
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
 //	SimpleAudioPlayer backgroundMusic2 = new SimpleAudioPlayer("sound2.wav", false);
 //	Music soundBang = new Music("bang.wav", false);
@@ -78,80 +82,93 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	public void paint(Graphics g) {
 	    
 	    super.paintComponent(g);
-	    g.setColor(Color.GRAY);
-	    g.fillRect(0, 0, 850, 750);
-	    g.setColor(Color.BLACK);
-	    g.drawRect(0, 0, 450, 450);
-	    g.setFont(myFont);
-	    g.setColor(Color.WHITE);
-		g.drawString("Score: " + score+"", 455,40);
-		g.drawString("Lines Cleared: " + lineCleared+"", 455,80);
-		g.drawString("Rows Cleared: " + rowCleared+"", 455,120);
-		g.drawString("Cols Cleared: " + colCleared+"", 455,160);
-	    clearing(g);
-	    // Paint the blocks first
-	    for (int i = 0; i < blocks.size(); i++) {
-	    	if(blocks.get(i).old) {
-	    		blocks.get(i).paint(g);
-	    	}
+	    if (currentState == GAME) {
+		    g.setColor(Color.GRAY);
+		    g.fillRect(0, 0, 850, 750);
+		    g.setColor(Color.BLACK);
+		    g.drawRect(0, 0, 450, 450);
+		    g.setFont(myFont);
+		    g.setColor(Color.WHITE);
+			g.drawString("Score: " + score+"", 455,40);
+			g.drawString("Lines Cleared: " + lineCleared+"", 455,80);
+			g.drawString("Rows Cleared: " + rowCleared+"", 455,120);
+			g.drawString("Cols Cleared: " + colCleared+"", 455,160);
+		    clearing(g);
+		    // Paint the blocks first
+		    for (int i = 0; i < blocks.size(); i++) {
+		    	if(blocks.get(i).old) {
+		    		blocks.get(i).paint(g);
+		    	}
+		    }
+	//	    System.out.println(toString());
+	//	    for(int i = 0; i<grid.length; i++) {
+	//	    	for(int j = 0; j<grid[i].length; j++) {
+	//	    		if(grid[i][j] == true) {
+	//	    			g.setColor(Color.GRAY);
+	//	    			g.fillRect(j*50, i * 50, 50, 50); // Use i, not rowIndex
+	//	    		}
+	//	    	}
+	//	    }
+		    // Now draw the gray rectangles on top of any empty rows
+		    for (int i = 0; i < grid.length; i++) {
+		        boolean allFalse = true;
+		        for (int j = 0; j < grid[i].length; j++) {
+		            if (grid[i][j]==1||grid[i][j] == 3) {
+		                allFalse = false;
+		                break;
+		            }
+		        }
+		        if (allFalse) {
+		        	score+=1000;
+		        	rowCleared ++;
+		        	lineCleared++;
+		        	clearRow(i); // Optional: clear the row if needed
+		        }
+		    }
+		    for (int i = 0; i < grid[0].length; i++) {
+		        boolean allFalse = true;
+		        for (int j = 0; j < grid.length; j++) {
+		            if (grid[j][i]==1||grid[j][i] == 3) {
+		                allFalse = false;
+		                break;
+		            }
+		        }
+		        if (allFalse) {
+		        	score+=1000;
+		        	colCleared ++;
+		        	lineCleared++;
+		            clearCol(i); // Optional: clear the row if needed
+		        }
+		    }
+		    clearing(g);
+		    for (int i = 0; i < blocks.size(); i++) {
+		    	if(blocks.get(i).old==false) {
+		    		blocks.get(i).paint(g);
+		    	}
+		    }
+	
+		    boolean next = false;
+		    for(int i = 0; i<blocks.size(); i++) {
+		    	if(blocks.get(i).cant(grid, blocks.get(i).getShape())) {
+		    		break;
+		    	}
+		    }
+		    if(next == false) {
+		        g.setColor(Color.WHITE);
+		    	g.drawString("Game Over", 40, 40);
+		    }
 	    }
-//	    System.out.println(toString());
-//	    for(int i = 0; i<grid.length; i++) {
-//	    	for(int j = 0; j<grid[i].length; j++) {
-//	    		if(grid[i][j] == true) {
-//	    			g.setColor(Color.GRAY);
-//	    			g.fillRect(j*50, i * 50, 50, 50); // Use i, not rowIndex
-//	    		}
-//	    	}
-//	    }
-	    // Now draw the gray rectangles on top of any empty rows
-	    for (int i = 0; i < grid.length; i++) {
-	        boolean allFalse = true;
-	        for (int j = 0; j < grid[i].length; j++) {
-	            if (grid[i][j]==1||grid[i][j] == 3) {
-	                allFalse = false;
-	                break;
-	            }
-	        }
-	        if (allFalse) {
-	        	score+=1000;
-	        	rowCleared ++;
-	        	lineCleared++;
-	        	clearRow(i); // Optional: clear the row if needed
-	        }
+	    if (currentState == END) {
+	    	drawEndState(g);
 	    }
-	    for (int i = 0; i < grid[0].length; i++) {
-	        boolean allFalse = true;
-	        for (int j = 0; j < grid.length; j++) {
-	            if (grid[j][i]==1||grid[j][i] == 3) {
-	                allFalse = false;
-	                break;
-	            }
-	        }
-	        if (allFalse) {
-	        	score+=1000;
-	        	colCleared ++;
-	        	lineCleared++;
-	            clearCol(i); // Optional: clear the row if needed
-	        }
-	    }
-	    clearing(g);
-	    for (int i = 0; i < blocks.size(); i++) {
-	    	if(blocks.get(i).old==false) {
-	    		blocks.get(i).paint(g);
-	    	}
-	    }
-
-	    boolean next = false;
-	    for(int i = 0; i<blocks.size(); i++) {
-	    	if(blocks.get(i).cant(grid, blocks.get(i).getShape())) {
-	    		break;
-	    	}
-	    }
-	    if(next == false) {
-	        g.setColor(Color.WHITE);
-	    	g.drawString("Game Over", 40, 40);
-	    }
+	    
+	}
+	public void drawEndState(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, width, height);
+		g.setColor(Color.WHITE);
+		g.drawString("GAME OVER! Press R to play again.", 50, 50);
+		
 	}
 	
 	public void clearRow(int rowIndex) {
@@ -193,7 +210,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		f.setResizable(false);
  		f.addMouseListener(this);
  		f.addMouseMotionListener(this);
- 		
+ 		f.addKeyListener(this);
  		if (blocks.size()==0) {
 			generate();
 		}
@@ -203,6 +220,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
  				grid[i][j] = 1;
  			}
  		}
+ 		
  		
  		
 //		backgroundMusic.play();
@@ -376,6 +394,41 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 			result+= "\n";
 		}
 		return result;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println(e.getKeyCode());
+		
+		if (e.getKeyCode()==32) {
+			currentState = END;
+			
+		}
+		if (e.getKeyCode()==82 && currentState == END) {
+			for (int i = 0; i < grid.length; i++) {
+				for (int j = 0; j < grid.length; j++) {
+					grid[i][j] = 1;
+					
+				}
+			}
+//			for (int i = 0; i < blocks.size(); i++) {
+//				blocks.remove(i);
+//			}
+			currentState = GAME;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
