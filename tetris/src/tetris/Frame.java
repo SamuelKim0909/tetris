@@ -52,6 +52,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	static int height = 750; 
 	
 	ArrayList<Block> blocks = new ArrayList<Block>();
+	ArrayList<Block> blocksAvailable = new ArrayList<Block>();
 	int [][] grid = new int [9][9];
 	//true = 1, false = 2, something else = 3;
 	int score = 0;
@@ -143,8 +144,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 
 	    boolean next = false;
-	    for(int i = 0; i<blocks.size(); i++) {
-	    	if(blocks.get(i).cant(grid, blocks.get(i).getShape())) {
+	    for(int i = 0; i<blockCount; i++) {
+	    	//System.out.println(blocksAvailable.get(i));
+	    	if(blocksAvailable.get(i).cant(grid, blocksAvailable.get(i).getShape())) {
+	    		next = true;
 	    		break;
 	    	}
 	    }
@@ -241,36 +244,52 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 			int num = (int)(Math.random()*7);
 			if (num==0) {
 				blocks.add(new Square(length+(10*i), 470, 100, 100));
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 				length += 100;
 			}
 			else if (num==1) {
 				blocks.add(new RightL(length+(10*i), 470, 100, 150));
 				length += 100;
-
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			else if (num==2 ) {
 				blocks.add(new LeftL(length+(10*i), 470, 100, 150));
 				length += 100;
-
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			else if (num==3) {
 				blocks.add(new Line(length+(10*i), 470, 50, 200));
 				length += 50;
-
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			else if (num==4) {
 				blocks.add(new T(length+(10*i), 470, 150, 100));
 				length += 150;
-
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			else if (num==5) {
 				blocks.add(new LeftZ(length+(10*i), 470, 150, 100));
 				length += 150;
-
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			else if (num==6) {
 				blocks.add(new RightZ(length+(10*i), 470, 150, 100));
 				length += 150;
+				System.out.println(blocks);
+				blocksAvailable.add(blocks.get(blocks.size()-1));
+				System.out.println(blocksAvailable);
 			}
 			blockCount++;
 //			nextNum = Block.number;
@@ -294,7 +313,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 	
 	public void mouseReleased(MouseEvent e) {
+		int index = 0;
 	    if (draggingBlock != null) {
+	    	for(int i = 0; i<blocksAvailable.size(); i++) {
+	    		if(blocksAvailable.get(i).equals(draggingBlock.getShape())) {
+	    			index = i;
+	    		}
+	    	}
 	        System.out.println("Block released at: (" + draggingBlock.x + ", " + draggingBlock.y + ")");
 		    System.out.println(draggingBlock.getShape());
 		    if(draggingBlock.available(draggingBlock.getX(),draggingBlock.getY(),grid,draggingBlock.getShape())){
@@ -302,6 +327,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    	if(draggingBlock.y<450) {
 		        	draggingBlock.draggable = false; // Make it ungrabbable
 		        	blockCount--;
+		        	blocksAvailable.remove(index);
 		        	draggingBlock.old = true;
 		        }
 		    	draggingBlock = null;
@@ -315,7 +341,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    }
 	    }
 	    check = true;
-	    
+	    System.out.println(blockCount);
 	}
 
 	public void mousePressed(MouseEvent e) {

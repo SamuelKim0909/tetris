@@ -76,7 +76,7 @@ public class Block {
 					}	
 				}
 			}
-		}else if(type.equals("leftZ")) {
+		}else if(type.equals("LeftZ")) {
 			for(int i = 0; i<grid.length-1; i++) {
 				for(int j = 0; j<grid[i].length-2; j++) {
 					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
@@ -87,7 +87,7 @@ public class Block {
 					}
 				}
 			}
-		}else if(type.equals("line")) {
+		}else if(type.equals("Line")) {
 			for(int i = 0; i<grid.length-3; i++) {
 				for(int j = 0; j<grid[i].length; j++) {
 					if((grid[i][j]==1||grid[i][j]==3)&&
@@ -98,7 +98,7 @@ public class Block {
 					}
 				}
 			}
-		}else if(type.equals("rightL")) {
+		}else if(type.equals("RightL")) {
 			for(int i = 0; i<grid.length-2; i++) {
 				for(int j = 0; j<grid[i].length-1; j++) {
 					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
@@ -109,7 +109,7 @@ public class Block {
 					}	
 				}
 			}
-		}else if(type.equals("rightZ")) {
+		}else if(type.equals("RightZ")) {
 			for(int i = 0; i<grid.length-1; i++) {
 				for(int j = 0; j<grid[i].length-2; j++) {
 					if((grid[i][j]==1||grid[i][j]==3)&&
@@ -120,7 +120,7 @@ public class Block {
 					}
 				}
 			}
-		}else if(type.equals("square")) {
+		}else if(type.equals("Square")) {
 			for(int i = 0; i<grid.length-1; i++) {
 				for(int j = 0; j<grid[i].length-1; j++) {
 					if((grid[i][j+1]==1||grid[i][j+1]==3)&&
