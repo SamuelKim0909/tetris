@@ -108,6 +108,7 @@ public class Block {
 					}
 				}
 			}
+			
 		} else if (type.equals("RightZ")) {
 			for (int i = 0; i < grid.length - 1; i++) {
 				for (int j = 0; j < grid[i].length - 2; j++) {
