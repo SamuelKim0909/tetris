@@ -143,6 +143,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    	}
 	    }
 
+	    
+	    
+	    
+	    
+	    
+	    //game over section
 	    boolean next = false;
 	    for(int i = 0; i<blockCount; i++) {
 	    	//System.out.println(blocksAvailable.get(i));
@@ -157,6 +163,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void clearRow(int rowIndex) {
 		for (int j = 0; j < grid[rowIndex].length; j++) {
 			grid[rowIndex][j] = 3;
@@ -167,12 +181,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	
 	public void clearCol(int colIndex) {
 		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				if (j==colIndex) {
-					grid[i][j] = 3;
-				}
-			}
+			grid[i][colIndex] = 3;
 		}
+		System.out.println("clearRow");
+		System.out.println(toString());
 	}
 
 	
