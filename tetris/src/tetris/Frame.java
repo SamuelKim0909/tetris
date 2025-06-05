@@ -163,13 +163,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	public void meaningless() {
+		System.out.println("hello");
+	}
 	
 	public void clearRow(int rowIndex) {
 		for (int j = 0; j < grid[rowIndex].length; j++) {
