@@ -162,7 +162,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    	g.drawString("Game Over", 40, 40);
 	    }
 	}
-	
+	//hello
 	public void clearRow(int rowIndex) {
 		for (int j = 0; j < grid[rowIndex].length; j++) {
 			grid[rowIndex][j] = 3;
