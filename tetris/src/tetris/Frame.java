@@ -40,9 +40,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	boolean check = false;
 	int currNum = 0;
 	int nextNum = 0;
+	final int MENU = 2;
 	final int GAME = 0;
 	final int END = 1;
-	int currentState = GAME;
+	int currentState = MENU;
 //	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
 //	SimpleAudioPlayer backgroundMusic2 = new SimpleAudioPlayer("sound2.wav", false);
 //	Music soundBang = new Music("bang.wav", false);
@@ -168,7 +169,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 	    if (currentState == END) {
 	    	drawEndState(g);
+	    }if (currentState == MENU) {
+	    	drawMenuState(g);
 	    }
+
 	}
 	public void drawEndState(Graphics g) {
 		g.setColor(Color.BLACK);
@@ -177,6 +181,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		g.drawString("GAME OVER! Press R to play again.", 50, 50);
 		
 	}
+	public void drawMenuState(Graphics g) {
+		g.setColor(Color.BLUE);
+		g.fillRect(0,  0,  width, height);
+		g.setColor(Color.WHITE);
+		g.setFont(myFont);
+		g.drawString("BLOCK BLAST", 260, 200);
+		g.drawString("Press SPACE to play!", 200, 500);
+		g.drawString("Press 1 for instructions", 175, 350);
+	}
+
 	//hello
 	public void clearRow(int rowIndex) {
 		for (int j = 0; j < grid[rowIndex].length; j++) {
@@ -435,22 +449,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		System.out.println(e.getKeyCode());
 		
 		if (e.getKeyCode()==32) {
-			currentState = END;
+			currentState = GAME;
 			
-		} 
-		if (e.getKeyCode()==82 && currentState == END) {
-			
-//			nt [][] grid = new int [9][9];
-//			//true = 1, false = 2, something else = 3;
-//			int score = 0;
-//			int lineCleared = 0;
-//			int rowCleared = 0;
-//			int colCleared = 0;
-//			boolean[] rowClear = new boolean[9];
-//			boolean[] colClear = new boolean[9];
-//			
-//			Block draggingBlock = null;
-// reset the blocks here
+		}if (e.getKeyCode() == 49) {
+			JOptionPane.showMessageDialog(null, "Click and drag blocks onto the grid. If an entire row or column is filled with blocks, the row/column will be cleared and you will gain points. The goal is to get as many points as possible before becoming unable to place more blocks.");
+		}
+
 			currentState = GAME;
 			score = 0;
 			rowCleared = 0;
@@ -471,7 +475,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 //			}
 		
 
-		}
+		
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
