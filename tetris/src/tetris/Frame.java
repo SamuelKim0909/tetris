@@ -152,7 +152,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    
 		    
 		    
-		    //game over section
+		    //r section
 		    boolean next = false;
 		    for(int i = 0; i<blockCount; i++) {
 		    	//System.out.println(blocksAvailable.get(i));
@@ -437,16 +437,40 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		if (e.getKeyCode()==32) {
 			currentState = END;
 			
-		}
+		} 
 		if (e.getKeyCode()==82 && currentState == END) {
-			for (int i = 0; i < grid.length; i++) {
-				for (int j = 0; j < grid.length; j++) {
-					grid[i][j] = 1;
-					
-				}
-			}
+			
+//			nt [][] grid = new int [9][9];
+//			//true = 1, false = 2, something else = 3;
+//			int score = 0;
+//			int lineCleared = 0;
+//			int rowCleared = 0;
+//			int colCleared = 0;
+//			boolean[] rowClear = new boolean[9];
+//			boolean[] colClear = new boolean[9];
+//			
+//			Block draggingBlock = null;
 // reset the blocks here
 			currentState = GAME;
+			score = 0;
+			rowCleared = 0;
+			colCleared = 0;
+			lineCleared = 0;
+			blockCount = 0;
+			while(blocks.size()>0) {
+				blocks.remove(blocks.size()-1);	
+			}
+			for(int i = 0; i<grid.length;i++) {
+				for(int j = 0; j<grid[i].length; j++) {
+					grid[i][j] = 1;
+				}
+			}
+			generate();
+//			while(blocksAvailable.size()>0) {
+//				blocksAvailable.remove(blocksAvailable.size()-1);
+//			}
+		
+
 		}
 	}
 	@Override
