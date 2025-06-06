@@ -178,6 +178,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 		g.setColor(Color.WHITE);
+		g.setFont(myFont);
 		g.drawString("GAME OVER! Press R to play again.", 50, 50);
 		
 	}
