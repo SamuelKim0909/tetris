@@ -54,15 +54,9 @@ public class Block {
 		setX(x);
 		setY(y);
 	}
-
-//	public void setNumber(int num) {
-//		number = num;
-//	}
-//	
-//	public int getNumber() {
-//		return number;
-//	}
-
+	
+	//checks if there is any space in the grid for each shape of blocks
+	//and returns a boolean expression.
 	public boolean cant(int[][] grid, String type) {
 		boolean result = false;
 		if (type.equals("LeftL")) {
@@ -146,6 +140,8 @@ public class Block {
 		return result;
 	}
 
+	
+	//checks if the place the block is drawn toward is available or not
 	public boolean available(int x, int y, int[][] grid, String type) {
 		int col = (x + 1) / 50;
 		int row = (y + 1) / 50;
@@ -202,6 +198,8 @@ public class Block {
 		return true;
 	}
 
+	
+	//updates the positions of each block on the grid.	
 	public int[][] coordinate(int x, int y, int[][] grid, String type) {
 		int col = (x + 1) / 50;
 		int row = (y + 1) / 50;

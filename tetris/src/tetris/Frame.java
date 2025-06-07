@@ -44,12 +44,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	final int GAME = 0;
 	final int END = 1;
 	int currentState = MENU;
-//	SimpleAudioPlayer backgroundMusic = new SimpleAudioPlayer("sound.wav", false);
-//	SimpleAudioPlayer backgroundMusic2 = new SimpleAudioPlayer("sound2.wav", false);
-//	Music soundBang = new Music("bang.wav", false);
-//	Music soundHaha = new Music("haha.wav", false);
-	
-	//boolean variables to keep track of which keys were found
 	
 	//frame width/height
 	static int width = 850; 
@@ -58,7 +52,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	ArrayList<Block> blocks = new ArrayList<Block>();
 	ArrayList<Block> blocksAvailable = new ArrayList<Block>();
 	int [][] grid = new int [9][9];
-	//true = 1, false = 2, something else = 3;
+	//true = 1, false = 2, changed = 3;
 	int score = 0;
 	int lineCleared = 0;
 	int rowCleared = 0;
@@ -69,6 +63,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	Block draggingBlock = null;
 	int offsetX, offsetY;
 	
+	//covers the area that is available with a gray square
 	public void clearing(Graphics g) {
 	    for(int i = 0; i<grid.length; i++) {
 	    	for(int j = 0; j<grid[i].length; j++) {
@@ -81,7 +76,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 	
 	public void paint(Graphics g) {
-	    
+	    //paints the frame, blocks, scores, and directions
 	    super.paintComponent(g);
 	    if (currentState == GAME) {
 		    g.setColor(Color.GRAY);
@@ -101,15 +96,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    		blocks.get(i).paint(g);
 		    	}
 		    }
-	//	    System.out.println(toString());
-	//	    for(int i = 0; i<grid.length; i++) {
-	//	    	for(int j = 0; j<grid[i].length; j++) {
-	//	    		if(grid[i][j] == true) {
-	//	    			g.setColor(Color.GRAY);
-	//	    			g.fillRect(j*50, i * 50, 50, 50); // Use i, not rowIndex
-	//	    		}
-	//	    	}
-	//	    }
 		    // Now draw the gray rectangles on top of any empty rows
 		    for (int i = 0; i < grid.length; i++) {
 		        boolean allFalse = true;
@@ -126,6 +112,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		        	clearRow(i); // Optional: clear the row if needed
 		        }
 		    }
+		    
+		    //checks if any column is fully occupied
 		    for (int i = 0; i < grid[0].length; i++) {
 		        boolean allFalse = true;
 		        for (int j = 0; j < grid.length; j++) {
@@ -148,15 +136,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		    	}
 		    }
 	
-		    
-		    
-		    
-		    
-		    
-		    //r section
+		    //reset
 		    boolean next = false;
 		    for(int i = 0; i<blockCount; i++) {
-		    	//System.out.println(blocksAvailable.get(i));
 		    	if(blocksAvailable.get(i).cant(grid, blocksAvailable.get(i).getShape())) {
 		    		next = true;
 		    		break;
@@ -174,6 +156,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    }
 
 	}
+	
+	//switches the screen to end page.
 	public void drawEndState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
@@ -182,6 +166,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		g.drawString("GAME OVER! Press R to play again.", 50, 50);
 		
 	}
+	
+	//switches the screen to the direction page.
 	public void drawMenuState(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(0,  0,  width, height);
@@ -192,7 +178,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		g.drawString("Press 1 for instructions", 175, 350);
 	}
 
-	//hello
+	//clears the row
 	public void clearRow(int rowIndex) {
 		for (int j = 0; j < grid[rowIndex].length; j++) {
 			grid[rowIndex][j] = 3;
@@ -201,6 +187,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 		System.out.println(toString());
 	}
 	
+	//clears the column
 	public void clearCol(int colIndex) {
 		for (int i = 0; i < grid.length; i++) {
 			grid[i][colIndex] = 3;
@@ -210,18 +197,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	}
 
 	
-	
-	//for kill screen, draw this image
-	//reset lives removes the last heart in the list
 	//main 
 	public static void main(String[] arg) {
 		Frame f = new Frame();
-		
-		
 	}
 	
 	 
-	
 	public Frame() {
 		JFrame f = new JFrame("Duck Hunt");
 		f.setSize(new Dimension(width, height));
@@ -242,39 +223,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
  			}
  		}
  		
- 		
-//		backgroundMusic.play();
-
-		/*
-		 * Setup any 1D array here! - create the objects that go in them ;)
-		 */
-		
-//		for (int i = 0; i < row1.length; i++) {
-//			//create the object and put in the array at position i!
-//			row1[i] = new Imposter(i*170, 430);
-//			
-//		}
-		// creates a new object for each item in array or list
-		
-		
-		//the cursor image must be outside of the src folder
-		//you will need to import a couple of classes to make it fully 
-		//functional! use eclipse quick-fixes
-//		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
-//				new ImageIcon("torch.png").getImage(),
-//				new Point(0,0),"custom cursor"));	
-		
-		
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
 	
+	
+	//generates three blocks outside of the grid when there are no more blocks to move
 	public void generate() {
-//		currNum = Block.number;
 		int length = 0;
-//		int number = Block.number;
 		for (int i = 0; i < 3; i++) {
 			int num = (int)(Math.random()*7);
 			if (num==0) {
@@ -327,10 +285,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 				System.out.println(blocksAvailable);
 			}
 			blockCount++;
-//			nextNum = Block.number;
-
 		}	
 	}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -347,6 +304,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    draggingBlock = null; // optional safety
 	}
 	
+	
+	//places and locks the block in the square it is drawn to
 	public void mouseReleased(MouseEvent e) {
 		int index = 0;
 	    if (draggingBlock != null) {
@@ -378,7 +337,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 	    check = true;
 	    System.out.println(blockCount);
 	}
-
+	//moves the selected block.
 	public void mousePressed(MouseEvent e) {
 	    int mx = e.getX();
 	    int my = e.getY();
@@ -470,14 +429,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, Mous
 					grid[i][j] = 1;
 				}
 			}
-			generate();
-//			while(blocksAvailable.size()>0) {
-//				blocksAvailable.remove(blocksAvailable.size()-1);
-//			}
-		
-
-		
+			generate();		
 	}
+	
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
